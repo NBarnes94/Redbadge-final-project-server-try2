@@ -2,9 +2,10 @@ const router = require('express').Router();
 const {VGModel} = require('../models');
 const validateSession = require('../middleware');
 const middleware = require('../middleware');
-// const { json } = require('sequelize/types');
-// const { destroy } = require('../models/user');
+const chalk = require('chalk');
 
+
+//! get all games
 router.get('/all', async (req,res) =>{
     try{
         const allGames = await VGModel.findAll();
@@ -17,6 +18,8 @@ router.get('/all', async (req,res) =>{
     }
 })
 
+
+//! get single game's info
 router.get("/:id", middleware.validateSession, async (req, res) =>{
     try{
         const findGame = await VGModel.findOne({
@@ -35,6 +38,8 @@ router.get("/:id", middleware.validateSession, async (req, res) =>{
     }
 })
 
+
+//! get a user's games
 router.get("/", middleware.validateSession, async (req, res) =>{
     try{
         const {id} = req.user
@@ -49,18 +54,20 @@ router.get("/", middleware.validateSession, async (req, res) =>{
     }
 })
 
-router.post("/create", middleware.validateSession, async (req, res) =>{
+
+//! create games
+router.post('/create', middleware.validateSession, async (req, res) =>{
     console.log(req.body);
 
-    const{title, genre, developer, platform, description, rating, personalComment, status} = req.body
+    const {title, genre, developer, platform, description, rating, personalComment, status} = req.body;
     const {id} = req.user
     const gameCreate = {
-        title,
-        genre,
+        title, 
+        genre, 
         developer,
-        platform, 
+        platform,
         description,
-        rating, 
+        rating,
         personalComment,
         status,
         owner_id: id
@@ -71,23 +78,24 @@ router.post("/create", middleware.validateSession, async (req, res) =>{
         const newGame = await VGModel.create(
             gameCreate
         );
-        res.status(201).json({
+        res.status(200).json({
             message: `Game successfully logged`,
             newGame
         })
         console.log(newGame);
-
     } catch(err){
         res.status(500).json({
             message: `Failed to create game ${err}`
         })
     }
 })
+
+//! update games
 router.put("/:id", middleware.validateSession, async (req,res)=>{
-    const{title, genre, developer, platform, description, rating, personalComment, status, owner_id} = req.body;
+    const{title, genre, developer, platform, description, rating, status,personalComment,  owner_id} = req.body;
     try{
         const gameUpdate = await VGModel.update(
-            {title, genre, developer, platform, description, rating, personalComment, status},
+            {title, genre, developer, platform, description, rating, status, personalComment},
             {where: {id:req.params.id}}
         )
         res.status(200).json({
@@ -101,6 +109,8 @@ router.put("/:id", middleware.validateSession, async (req,res)=>{
     }
 })
 
+
+//! delete games
 router.delete('/delete/:id', middleware.validateSession, async (req, res) =>{
     try{
         const deleteGame = await VGModel.destroy({

@@ -12,6 +12,8 @@ BookModel.belongsToMany(CollectionModel, {through: CollectionTable});
 MovieModel.belongsToMany(CollectionModel, {through: CollectionTable});
 
 CollectionModel.belongsToMany(VGModel, {through: CollectionTable})
+CollectionModel.belongsToMany(BookModel, {through: CollectionTable})
+CollectionModel.belongsToMany(MovieModel, {through: CollectionTable})
 
 
 UserModel.hasMany(CollectionModel);

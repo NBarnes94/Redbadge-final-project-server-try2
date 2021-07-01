@@ -3,6 +3,8 @@ const {BookModel} = require('../models');
 const validateSession = require('../middleware');
 const middleware = require('../middleware')
 
+//! Get all books
+
 router.get('/all', async (req, res) =>{
     try{
         const allBooks = await BookModel.findAll()
@@ -14,6 +16,9 @@ router.get('/all', async (req, res) =>{
         })
     }
 })
+
+
+//! Get single book 
 
 router.get("/:id", middleware.validateSession, async (req, res) =>{
     try{
@@ -27,6 +32,8 @@ router.get("/:id", middleware.validateSession, async (req, res) =>{
         })
     }
 })
+
+//! Get user's books
 router.get("/", middleware.validateSession, async (req, res) =>{
     try{
         const {id} = req.user
@@ -36,11 +43,13 @@ router.get("/", middleware.validateSession, async (req, res) =>{
         res.status(200).json(userBooks)
     } catch(err){
         res.status(500).json({
-            message: `Failed to find your games: ${err}`    
+            message: `Failed to find your books: ${err}`    
         })
     }
 })
 
+
+//! Create Book
 router.post('/create', middleware.validateSession, async (req, res) =>{
     console.log(req.body);
 
@@ -62,7 +71,7 @@ router.post('/create', middleware.validateSession, async (req, res) =>{
         const newBook = await BookModel.create(
             bookCreate
         );
-        res.status(500).json({
+        res.status(200).json({
             message: `Book successfully logged`,
             newBook
         })
@@ -74,6 +83,8 @@ router.post('/create', middleware.validateSession, async (req, res) =>{
     }
 })
 
+
+//! Update book
 router.put('/:id', middleware.validateSession, async(req, res) =>{
     const{title, genre, author, description, rating, personalComment, status, owner_id} = req.body;
     try{
@@ -94,6 +105,8 @@ router.put('/:id', middleware.validateSession, async(req, res) =>{
     }
 })
 
+
+//! Delete book
 router.delete('/delete/:id', middleware.validateSession, async (req,res)=>{
     try{
     const deleteBook = await BookModel.destroy({

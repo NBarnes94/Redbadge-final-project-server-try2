@@ -19,10 +19,13 @@ const VGModel = db.define('videoGame', {
         allowNull:false
     }, 
     description:{
-        type:DataTypes.STRING,
+        type:DataTypes.TEXT,
         allowNull:false
     },
     rating:{
+        type:DataTypes.STRING,
+    },
+    status:{
         type:DataTypes.STRING,
     },
     personalComment:{
