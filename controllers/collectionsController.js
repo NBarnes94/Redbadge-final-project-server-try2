@@ -8,7 +8,7 @@ const {MovieModel} = require('../models');
 const {BookModel} = require('../models');
 const {CollectionTable} = require('../models')
 
-router.post("/create", middleware.validateSession, (req, res)=>{
+router.post("/create", middleware.validateSession, async (req, res)=>{
     const {name, mediaInCollection} = req.body
     const {id} = req.user   
     const createCollection = {

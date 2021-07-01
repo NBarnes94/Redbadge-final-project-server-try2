@@ -3,4 +3,5 @@ module.exports={
     videoGameController: require('./videoGameController'),
     bookController: require('./bookController'),
     movieController: require('./movieController'),
+    collectionsController: require('./collectionsController')
 }
