@@ -4,7 +4,6 @@ const db = require('../db');
 const CollectionModel = db.define('collection', {
     owner:{
         type:DataTypes.INTEGER,
-        allowNull:false
     },
     name:{
         type:DataTypes.STRING,

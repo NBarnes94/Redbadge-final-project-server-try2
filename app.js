@@ -11,7 +11,7 @@ app.use('/user', controllers.userController);
 app.use('/videoGames', controllers.videoGameController);
 app.use('/book', controllers.bookController);
 app.use('/movie', controllers.movieController);
-// app.use('./collection', controllers.collectionsController)
+app.use('./collection', controllers.collectionsController)
 
 dbConnection.authenticate()
 .then(() => dbConnection.sync(

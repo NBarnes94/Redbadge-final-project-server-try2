@@ -8,13 +8,14 @@ const {MovieModel} = require('../models');
 const {BookModel} = require('../models');
 const {CollectionTable} = require('../models')
 
-router.post("/create", middleware.validateSession, async (req, res)=>{
+router.post('/create', middleware.validateSession, async (req,res) =>{
     const {name, mediaInCollection} = req.body
     const {id} = req.user   
     const createCollection = {
         owner: id, 
         name, 
-        mediaInCollection
+        mediaInCollection,
+        userId: id
     }
     console.log(createCollection);
 
@@ -34,23 +35,25 @@ router.post("/create", middleware.validateSession, async (req, res)=>{
     }
 })
 
-router.put('/addMedia/:collectionId/:movieId', middleware.validateSession, async (req, res) =>{
-    const addMovie = {mediaInCollection: req.body.mediaInCollection}
+// router.put('/addMedia/:collectionId/:movieId', middleware.validateSession, async (req, res) =>{
+//     const addMovie = {mediaInCollection: req.body.mediaInCollection}
 
-    const query = {where: {id: req.params.id}};
-    try{
-        const newCollectionAdd = await CollectionTable.create({
-            collectionId: req.params.collectionId,
-            movieId: res.params.movieId
-        })
+//     const query = {where: {id: req.params.id}};
+//     try{
+//         const newCollectionAdd = await CollectionTable.create({
+//             collectionId: req.params.collectionId,
+//             movieId: res.params.movieId
+//         })
 
-        res.status(200).json({
-            message: `Movie successfully added to collection`,
-            newCollectionAdd
-        })
-    }catch(err){
-        res.status(500).json({
-            message: `Failed to add movie to collection ${err}`
-        })
-    }
-})
+//         res.status(200).json({
+//             message: `Movie successfully added to collection`,
+//             newCollectionAdd
+//         })
+//     }catch(err){
+//         res.status(500).json({
+//             message: `Failed to add movie to collection ${err}`
+//         })
+//     }
+// })
+
+module.exports = router;
