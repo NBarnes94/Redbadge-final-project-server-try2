@@ -19,6 +19,12 @@ const User = db.define('user', {
     password:{
         type:DataTypes.STRING,
         allowNull: false,
+    },
+    role:{
+        type:DataTypes.ENUM,
+        values: ["user", "admin"],
+        allowNull:false,
+        defaultValue: "user"
     }
 })
 

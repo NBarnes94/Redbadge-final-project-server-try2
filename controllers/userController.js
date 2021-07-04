@@ -2,7 +2,8 @@ const router =  require('express').Router();
 const{UserModel} = require('../models');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
-const {UniqueConstraintError} = require('sequelize');
+const {UniqueConstraintError, json} = require('sequelize');
+const middleware = require('../middleware');
 
 
 //! get user info
@@ -21,14 +22,15 @@ router.get('/get', async (req,res) =>{
 
 //! register user
 router.post('/register', async (req, res) =>{
-    const {firstName, lastName, email, password} =req.body
+    const {firstName, lastName, email, password, role} =req.body
 
     try{
         const newUser = await UserModel.create({
             firstName, 
             lastName,
             email, 
-            password: bcrypt.hashSync(password, 12)
+            password: bcrypt.hashSync(password, 12),
+            role
         })
 
         const token = jwt.sign(
@@ -97,6 +99,42 @@ router.post("/login", async (req,res) =>{
     } catch(err){
         res.status(500).json({
             message: `Error logging in`
+        })
+    }
+})
+
+router.get("/admin/all", middleware.validateAdmin, async(req, res) =>{
+    try{
+        const allUsers = await UserModel.findAll();
+        res.status(200).json({ allUsers })
+    } catch (err){
+        res.status(500).json({
+            error: err
+        })
+    }
+})
+
+router.put("admin/:id", middleware.validateAdmin, async(req, res) =>{
+    let {role} = req.body.user;
+    const updateUser = {role: role};
+    const query = {where: {id: req.params.userId} };
+    try{
+        const foundUser = await UserModel.firstOne(query);
+
+        if (foundUser){
+            await UserModel.update(updateUser, query);
+
+            res.status(201).json({
+                updatedUser: updateUser
+            })
+        } else{
+            res.status(406).json({
+                message: `Not Authorized: ${err}`
+            })
+        }
+    } catch(err){
+        res.status(500).json({
+            error: err
         })
     }
 })
