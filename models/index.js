@@ -5,15 +5,24 @@ const BookModel = require('./book');
 const CollectionModel = require('./collections');
 const CollectionTable = require('./collectionTable');
 
-VGModel.belongsToMany(CollectionModel, {through: CollectionTable});
+// CollectionModel.hasMany(VGModel);
+// VGModel.belongsTo(CollectionModel)
 
-BookModel.belongsToMany(CollectionModel, {through: CollectionTable});
-
-MovieModel.belongsToMany(CollectionModel, {through: CollectionTable});
-
+// VGModel.belongsToMany(CollectionModel, {through: CollectionTable});
 CollectionModel.belongsToMany(VGModel, {through: CollectionTable})
+
+// CollectionModel.hasMany(BookModel);
+// BookModel.belongsTo(CollectionModel)
+
+// BookModel.belongsToMany(CollectionModel, {through: CollectionTable});
 CollectionModel.belongsToMany(BookModel, {through: CollectionTable})
+
+// CollectionModel.hasMany(MovieModel);
+// MovieModel.belongsTo(CollectionModel)
+
+// MovieModel.belongsToMany(CollectionModel, {through: CollectionTable});
 CollectionModel.belongsToMany(MovieModel, {through: CollectionTable})
+
 
 
 UserModel.hasMany(CollectionModel);

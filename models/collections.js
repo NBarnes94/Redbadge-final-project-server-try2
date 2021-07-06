@@ -8,9 +8,6 @@ const CollectionModel = db.define('collection', {
     name:{
         type:DataTypes.STRING,
         allowNull:false
-    },
-    mediaInCollection:{
-        type: DataTypes.JSON
     }
 })
 

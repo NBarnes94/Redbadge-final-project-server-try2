@@ -7,14 +7,19 @@ const middleware = require('../middleware');
 
 
 //! get user info
-router.get('/get', async (req,res) =>{
+router.get('/get',middleware.validateSession,  async (req,res) =>{
     try{
+        const {id} = req.user
+        const getUser = await UserModel.findOne({
+            where: {id: id}
+        })
         res.status(201).json({
-            message: `test`
+            message: `heres user`, 
+            firstName: getUser
         })
     }catch(err){
         res.status(500).json({
-            message: `no test`
+            message: `Failed to retrieve user ${err}`
         })
     }
 })

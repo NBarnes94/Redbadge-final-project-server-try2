@@ -1,6 +1,6 @@
 const router = require('express').Router();
 const {MovieModel} = require('../models');
-const validateSession = require('../middleware');
+const validateSession = require('../middleware/validate-jwt');
 const middleware = require('../middleware');
 const { movieController } = require('.');
 
