@@ -15,7 +15,7 @@ router.get('/get',middleware.validateSession,  async (req,res) =>{
         })
         res.status(201).json({
             message: `heres user`, 
-            firstName: getUser
+            getUser
         })
     }catch(err){
         res.status(500).json({

@@ -7,6 +7,7 @@ const controllers = require('./controllers');
 const middleware = require('./middleware');
 
 
+app.use(middleware.headers);
 app.use('/user', controllers.userController);
 app.use('/videoGames', controllers.videoGameController);
 app.use('/book', controllers.bookController);
@@ -27,5 +28,3 @@ dbConnection.authenticate()
         console.log(`[Server]: server crashed`);
         console.log(err);
     })
-
-    app.use(middleware.headers);
